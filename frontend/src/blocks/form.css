@@ -1,0 +1,15 @@
+.form__input_type_error {
+  border-bottom-color: #ff0000;
+}
+
+.form__input-error {
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff0000;
+}
+
+.form__submit_inactive {
+  color: #cccccc;
+  background-color: white;
+  border: 1px solid;
+}

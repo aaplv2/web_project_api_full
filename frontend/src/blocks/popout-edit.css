@@ -1,0 +1,124 @@
+.popout-edit {
+  font-family: "Inter", Arial, sans-serif;
+  color: black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 10px;
+  border: 0 solid black;
+  padding: 50px;
+  z-index: 2;
+  background-color: white;
+}
+
+.popout-edit.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popout-edit__title {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0;
+  margin-bottom: 54px;
+}
+
+.popout-edit__button-close {
+  cursor: pointer;
+  background: 0;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: -33px;
+  right: -33px;
+}
+
+.popout-edit__button-close:hover {
+  opacity: 50%;
+}
+
+.popout-edit__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popout-edit__form-name {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-color: #c4c4c4;
+  min-width: 358px;
+  height: 27px;
+}
+
+.popout-edit__form-name::placeholder {
+  font-size: 14px;
+  line-height: 30px;
+  color: #c4c4c4;
+}
+
+.popout-edit__form-text {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-color: #c4c4c4;
+  margin-top: 30px;
+  height: 27px;
+}
+
+.popout-edit__form-text::placeholder {
+  font-size: 14px;
+  line-height: 30px;
+  color: #c4c4c4;
+}
+
+.popout-edit__button-save {
+  margin-top: 48px;
+  border: 0;
+  background-color: black;
+  color: white;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.popout-edit__button-save:hover {
+  opacity: 80%;
+}
+
+#overlay {
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  height: 100vh;
+  width: 100%;
+}
+
+#overlay.active {
+  pointer-events: all;
+  opacity: 1;
+}
+
+@media screen and (max-width: 877px) {
+  .popout-edit {
+    padding: 22px;
+  }
+
+  .popout-edit__button-close {
+    top: -41px;
+    right: 0;
+  }
+
+  .popout-edit__form-name {
+    min-width: 232px;
+  }
+}

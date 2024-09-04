@@ -1,0 +1,89 @@
+.popout-confirm {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", Arial, sans-serif;
+  color: black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 10px;
+  border: 0 solid black;
+  padding: 36px;
+  z-index: 2;
+  background-color: white;
+  min-width: 430px;
+}
+
+.popout-confirm.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popout-confirm__title {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0;
+}
+
+.popout-confirm__button-close {
+  cursor: pointer;
+  background: 0;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: -33px;
+  right: -33px;
+}
+
+.popout-confirm__button-close:hover {
+  opacity: 50%;
+}
+
+.popout-confirm__button-save {
+  margin-top: 38px;
+  border: 0;
+  background-color: black;
+  color: white;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  width: 100%;
+}
+
+.popout-confirm__button-save:hover {
+  opacity: 80%;
+}
+
+#overlay {
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  height: 100vh;
+  width: 100%;
+}
+
+#overlay.active {
+  pointer-events: all;
+  opacity: 1;
+}
+
+@media screen and (max-width: 572px) {
+  .popout-confirm {
+    padding: 22px;
+    min-width: 232px;
+  }
+
+  .popout-confirm__button-close {
+    top: -41px;
+    right: 0;
+  }
+}
