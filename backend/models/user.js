@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
     minlength: 2,
     maxlength: 30,
+    default: "Jacques Cousteau",
   },
   about: {
     type: String,
-    required: true,
     minlength: 2,
     maxlength: 30,
+    default: "Explorador",
   },
   avatar: {
     type: String,
@@ -23,7 +23,22 @@ const userSchema = new mongoose.Schema({
       },
       message: (props) => `${props.value} no es una URL válida!`,
     },
+    default: "https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg",
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: (email) => validator.isEmail(email),
+      message: "Formato de correo electrónico incorrecto"
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,
+  }
 });
 
 module.exports = mongoose.model("user", userSchema);

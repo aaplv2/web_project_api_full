@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt")
 const User = require("../models/user");
 
 const ERROR_CODE = 400;
@@ -30,8 +31,11 @@ module.exports.getUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
+  const { name, about, avatar, email, password } = req.body;
+  bcrypt.hash(password, 10)
+  .then(hash =>
+    User.create({ name, about, avatar, email: email, password: hash, })
+  )
     .then((user) => res.send({ data: user }))
     .catch((err) =>
       res.status(ERROR_CODE).send({
@@ -49,7 +53,7 @@ module.exports.updateUser = (req, res) => {
   })
     .orFail(() => {
       const error = new Error("Usuario no encontrado");
-      error.statusCode = 404;
+      error.statusCode = NOT_FOUND_CODE;
       throw error;
     })
     .then((user) => res.send({ data: user }))
@@ -71,7 +75,7 @@ module.exports.updateAvatar = (req, res) => {
   })
     .orFail(() => {
       const error = new Error("No se ha encontrado ningún usuario con esa id");
-      error.statusCode = 404;
+      error.statusCode = NOT_FOUND_CODE;
       throw error;
     })
     .then((user) => res.send({ data: user }))
