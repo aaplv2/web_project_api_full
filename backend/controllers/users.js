@@ -32,6 +32,30 @@ module.exports.getUser = (req, res) => {
     });
 };
 
+module.exports.getCurrentUser = (req, res) => {
+  User.findById(req.user._id)
+  .then((users) => {
+    if (users) {
+      res.send({ data: users});
+    } else {
+      res
+      .status(NOT_FOUND_CODE)
+      .send({ message: "Usuario no encontrado" })
+    }
+  })
+  .catch((err) => {
+    if (err.name === 'CastError') {
+      return res
+          .status(ERROR_CODE)
+          .send({ message: "Id de usuario no válida" });
+    } else {
+      res
+        .status(SERVER_ERROR_CODE)
+        .send({ message: err.message})
+    }
+  })
+}
+
 module.exports.createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
   bcrypt.hash(password, 10)
@@ -92,7 +116,7 @@ module.exports.updateAvatar = (req, res) => {
 
     module.exports.login = (req, res) => {
       const {email, password} = req.body
-      User.findOne({email})
+      User.findOne({email}).select('+password')
       .then((user) => {
         if(!user) {
           return Promise.reject(new Error("Email o contraseña incorrecta"))
