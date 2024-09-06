@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const usersRoute = require("./routes/users.js");
 const cardsRoute = require("./routes/cards.js");
 const { login, createUser } = require("./controllers/users.js");
+const auth = require('./middlewares/auth.js')
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -19,6 +20,8 @@ app.use((req, res, next) => {
 
 app.post("/signin", login);
 app.post("/signup", createUser);
+
+app.use(auth);
 
 app.use(express.json());
 app.use("/users", usersRoute);
