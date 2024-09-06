@@ -1,7 +1,9 @@
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 const ERROR_CODE = 400;
+const AUTHENTICATION_ERROR_CODE = 401
 const NOT_FOUND_CODE = 404;
 const SERVER_ERROR_CODE = 500;
 
@@ -87,4 +89,27 @@ module.exports.updateAvatar = (req, res) => {
       }
       res.status(SERVER_ERROR_CODE).send({ message: err.message });
     });
+
+    module.exports.login = (req, res) => {
+      const {email, password} = req.body
+      User.findOne({email})
+      .then((user) => {
+        if(!user) {
+          return Promise.reject(new Error("Email o contraseña incorrecta"))
+        }
+        return bcrypt.compare(password, user.password)
+      })
+      .then((matched) => {
+        if(!matched) {
+          return Promise.reject(new Error("Email o contraseña incorrecta"))
+        }
+        const token = jwt.sign({ _id: user._id }, "Clave-secreta", { expiresIn: "7d" })
+        res.send({ token })
+      })
+      .catch((err) => {
+        res
+        .status(AUTHENTICATION_ERROR_CODE)
+        .send({ message: err.message })
+      })
+    }
 };
