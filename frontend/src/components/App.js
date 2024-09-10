@@ -28,6 +28,7 @@ function App() {
   const [currentCards, setCurrentCards] = useState([]);
   const [loggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const [token, setToken] = useState("")
 
   const navigate = useNavigate();
 
@@ -41,11 +42,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    setToken(localStorage.getItem("token"));
     if (token) {
       getUser(token).then((data) => {
         setIsLoggedIn(true);
         setCurrentUser(data);
+        setCurrentCards(data);
         setUserEmail(data.email);
         navigate("/");
       });

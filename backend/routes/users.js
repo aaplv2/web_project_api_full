@@ -7,6 +7,8 @@ const {
   getCurrentUser,
 } = require("../controllers/users");
 
+// const { celebrate } = require('celebrate')
+
 router.get("/", getUsers);
 router.get("/:id", getUser);
 router.get("/users/me", getCurrentUser)
