@@ -9,6 +9,7 @@ const { celebrate, errors } = require("celebrate");
 
 const { loginValidator, signUpValidator } = require("./models/validation.js");
 const { NotFoundError } = require("./middlewares/errors.js");
+const { requestLogger, errorLogger } = require("./middlewares/logger.js");
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -17,6 +18,8 @@ app.use(express.json());
 
 mongoose.connect("mongodb://localhost:27017/aroundb");
 
+app.use(requestLogger);
+
 app.post("/signin", celebrate({ body: loginValidator }), login);
 app.post("/signup", celebrate({ body: signUpValidator }), createUser);
 
@@ -24,6 +27,8 @@ app.use(auth);
 
 app.use("/users", usersRoute);
 app.use("/cards", cardsRoute);
+
+app.use(errorLogger);
 
 app.use(errors());
 
@@ -36,7 +41,7 @@ app.use((err, req, res, next) => {
 });
 
 app.get("*", (req, res) => {
-  new NotFoundError("Recurso solicitado no encontrado")
+  new NotFoundError("Recurso solicitado no encontrado");
 });
 
 app.listen(PORT, () => {
