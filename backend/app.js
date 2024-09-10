@@ -3,23 +3,40 @@ const mongoose = require("mongoose");
 const usersRoute = require("./routes/users.js");
 const cardsRoute = require("./routes/cards.js");
 const { login, createUser } = require("./controllers/users.js");
-const auth = require('./middlewares/auth.js')
+const auth = require("./middlewares/auth.js");
+
+const { celebrate, errors } = require("celebrate");
+
+const { loginValidator, signUpValidator } = require("./models/validation.js");
+const { NotFoundError } = require("./middlewares/errors.js");
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/aroundb")
+app.use(express.json());
 
-app.post("/signin", login);
-app.post("/signup", createUser);
+mongoose.connect("mongodb://localhost:27017/aroundb");
+
+app.post("/signin", celebrate({ body: loginValidator }), login);
+app.post("/signup", celebrate({ body: signUpValidator }), createUser);
 
 app.use(auth);
 
-app.use(express.json());
 app.use("/users", usersRoute);
 app.use("/cards", cardsRoute);
+
+app.use(errors());
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message:
+      statusCode === 500 ? "Se ha producido un error en el servidor" : message,
+  });
+});
+
 app.get("*", (req, res) => {
-  res.status(404).send({ message: "Recurso solicitado no encontrado" });
+  new NotFoundError("Recurso solicitado no encontrado")
 });
 
 app.listen(PORT, () => {

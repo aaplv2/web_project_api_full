@@ -15,12 +15,15 @@ module.exports.getCards = (req, res) => {
 module.exports.createCard = (req, res) => {
   const { title, link, owner } = req.body;
   Card.create({ title, link, owner })
-    .then((card) => res.send({ data: card }))
-    .catch((err) =>
+    .then((card) => {
+
+      res.send({ data: card })})
+    .catch((err) =>{
+      console.log(res)
       res.status(ERROR_CODE).send({
         message:
           "Se pasaron datos inválidos a los métodos para crear una tarjeta.",
-      })
+      })}
     );
 };
 
