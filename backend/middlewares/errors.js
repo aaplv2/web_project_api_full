@@ -12,4 +12,11 @@ class BadRequestError extends Error {
   }
 }
 
-module.exports = { NotFoundError, BadRequestError };
+class AuthneticationError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = 401;
+  }
+}
+
+module.exports = { NotFoundError, BadRequestError, AuthneticationError };

@@ -16,7 +16,11 @@ function Header({ isLoggedIn, isUser, onLogout }) {
           {isLoggedIn ? (
             <>
               <div>
-                <Link to="/profile" className="header__link">
+                <Link
+                  to="/
+                "
+                  className="header__link"
+                >
                   {isUser}
                 </Link>
                 <Link className="header__button" onClick={onLogout}>

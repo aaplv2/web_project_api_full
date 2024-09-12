@@ -1,12 +1,11 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { NotFoundError, BadRequestError } = require("../middlewares/errors");
-
-const ERROR_CODE = 400;
-const AUTHENTICATION_ERROR_CODE = 401;
-const NOT_FOUND_CODE = 404;
-const SERVER_ERROR_CODE = 500;
+const {
+  NotFoundError,
+  BadRequestError,
+  AuthneticationError,
+} = require("../middlewares/errors");
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -128,6 +127,6 @@ module.exports.login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      res.status(AUTHENTICATION_ERROR_CODE).send({ message: err.message });
+      return AuthneticationError("Error de autenticación");
     });
 };

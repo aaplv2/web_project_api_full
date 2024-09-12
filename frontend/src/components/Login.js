@@ -24,7 +24,7 @@ export default function Login({
     auth
       .authorize(email, password)
       .then((data) => {
-        if (data.token) {
+        if (data.token) {         
           setEmail("");
           setPassword("");
           handleLogin(data.token);

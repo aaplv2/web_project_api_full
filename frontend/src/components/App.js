@@ -150,7 +150,7 @@ function App() {
     setUserEmail("");
     setCurrentUser({});
     localStorage.clear();
-    navigate("/sigin");
+    navigate("/signin");
   };
 
   return (

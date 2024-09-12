@@ -11,7 +11,7 @@ const { loginValidator, signUpValidator } = require("./models/validation.js");
 const { NotFoundError } = require("./middlewares/errors.js");
 const { requestLogger, errorLogger } = require("./middlewares/logger.js");
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
 app.use(express.json());
