@@ -1,13 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const usersRoute = require("./routes/users.js");
-const cardsRoute = require("./routes/cards.js");
-const { login, createUser } = require("./controllers/users.js");
-const auth = require("./middlewares/auth.js");
-
+var cors = require("cors");
 const { celebrate, errors } = require("celebrate");
 
 const { loginValidator, signUpValidator } = require("./models/validation.js");
+
+const usersRoute = require("./routes/users.js");
+const cardsRoute = require("./routes/cards.js");
+
+const { login, createUser } = require("./controllers/users.js");
+
+const auth = require("./middlewares/auth.js");
 const { NotFoundError } = require("./middlewares/errors.js");
 const { requestLogger, errorLogger } = require("./middlewares/logger.js");
 
@@ -15,6 +18,9 @@ const { PORT = 3001 } = process.env;
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
+app.options("*", cors());
 
 mongoose.connect("mongodb://localhost:27017/aroundb");
 
