@@ -20,7 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && scp -r ./build/* aaplv2@aroundfull.chickenkiller.com:/home/aaplv2/web_project_api_full/frontend"
   },
   "eslintConfig": {
     "extends": [
