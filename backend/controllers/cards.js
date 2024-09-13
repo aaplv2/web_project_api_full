@@ -5,7 +5,13 @@ module.exports.getCards = (req, res, next) => {
   console.log("getcards");
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === "NotFoundError") {
+        next(new NotFoundError("Tarjetas no encontradas"));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.createCard = (req, res, next) => {
@@ -15,11 +21,12 @@ module.exports.createCard = (req, res, next) => {
       res.send({ data: card });
     })
     .catch((err) => {
-      return new BadRequestError(
-        "Se pasaron datos inválidos a los métodos para crear una tarjeta."
-      );
-    })
-    .catch(next);
+      if (err.name === "CastError") {
+        next(new BadRequestError("Datos de tarjeta no validos"));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.deleteCard = (req, res, next) => {
@@ -28,7 +35,13 @@ module.exports.deleteCard = (req, res, next) => {
       throw new NotFoundError("No se ha encontrado ninguna tarjeta con esa id");
     })
     .then((card) => res.send(card))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === "CastError") {
+        next(new BadRequestError("Datos de tarjeta no validos"));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.likeCard = (req, res, next) => {
@@ -41,7 +54,13 @@ module.exports.likeCard = (req, res, next) => {
       throw new NotFoundError("No se ha encontrado ninguna tarjeta con esa id");
     })
     .then(() => res.send({ message: "Like existoso" }))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === "CastError") {
+        next(new BadRequestError("Datos de tarjeta no validos"));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.dislikeCard = (req, res, next) => {
@@ -54,5 +73,11 @@ module.exports.dislikeCard = (req, res, next) => {
       throw new NotFoundError("No se ha encontrado ninguna tarjeta con esa id");
     })
     .then(() => res.send({ message: "dislike existoso" }))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === "CastError") {
+        next(new BadRequestError("Datos de tarjeta no validos"));
+      } else {
+        next(err);
+      }
+    });
 };
