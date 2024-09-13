@@ -72,6 +72,7 @@ module.exports.createUser = (req, res, next) => {
     )
     .then((user) => res.send({ data: user }))
     .catch((err) => {
+      console.log(err)
       return new BadRequestError(
         "Se pasaron datos inválidos a los métodos para crear un usuario."
       );
