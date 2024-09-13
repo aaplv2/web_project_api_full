@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+
 import Header from "./Header.js";
 import Main from "./Main.js";
 import Footer from "./Footer.js";
-import api from "../utils/api.js";
-import { getUser } from "../utils/auth.js";
-
-import "../index.css";
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
-import { CurrentCardContext } from "../contexts/CurrentCardContext.js";
-import { PopupContext } from "../contexts/PopupProvider.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Register from "./Register.js";
 import Login from "./Login.js";
 import InfoTooltip from "./InfoTooltip.js";
+
+import "../index.css";
+
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import { CurrentCardContext } from "../contexts/CurrentCardContext.js";
+import { PopupContext } from "../contexts/PopupProvider.js";
+
+import api from "../utils/api.js";
+import { getUser } from "../utils/auth.js";
 
 function App() {
   const [isAddPlacePopoutOpen, setIsAddPlacePopoutOpen] = useState(false);

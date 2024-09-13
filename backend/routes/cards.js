@@ -8,7 +8,6 @@ const {
   dislikeCard,
 } = require("../controllers/cards");
 
-
 const { celebrate } = require("celebrate");
 const { cardCreateValidator } = require("../models/validation");
 

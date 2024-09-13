@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
       },
       message: (props) => `${props.value} no es una URL válida!`,
     },
-    default: "https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg",
+    default:
+      "https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg",
   },
   email: {
     type: String,
@@ -31,7 +32,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator: (email) => validator.isEmail(email),
-      message: "Formato de correo electrónico incorrecto"
+      message: "Formato de correo electrónico incorrecto",
     },
   },
   password: {
@@ -39,7 +40,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
     select: false,
-  }
+  },
 });
 
 module.exports = mongoose.model("user", userSchema);

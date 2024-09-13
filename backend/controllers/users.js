@@ -134,6 +134,6 @@ module.exports.login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      return AuthneticationError("Error de autenticación");
+      return new AuthneticationError("Error de autenticación");
     });
 };
