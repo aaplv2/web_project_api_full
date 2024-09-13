@@ -12,7 +12,7 @@ const {
 require("dotenv").config();
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.getUsers = (req, res) => {
+module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
       if (users) {
@@ -25,10 +25,11 @@ module.exports.getUsers = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    });
+    })
+    .catch(next);
 };
 
-module.exports.getUser = (req, res) => {
+module.exports.getUser = (req, res, next) => {
   User.findById(req.params.id)
     .orFail(() => {
       throw new NotFoundError("No se encontró ningún usuario con ese ID");
@@ -38,10 +39,11 @@ module.exports.getUser = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    });
+    })
+    .catch(next);;
 };
 
-module.exports.getCurrentUser = (req, res) => {
+module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((users) => {
       if (users) {
@@ -54,10 +56,11 @@ module.exports.getCurrentUser = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    });
+    })
+    .catch(next);;
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
   bcrypt
     .hash(password, 10)
@@ -69,10 +72,11 @@ module.exports.createUser = (req, res) => {
       return new BadRequestError(
         "Se pasaron datos inválidos a los métodos para crear un usuario."
       );
-    });
+    })
+    .catch(next);;
 };
 
-module.exports.updateUser = (req, res) => {
+module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, req.body, {
     new: true,
     runValidators: true,
@@ -86,10 +90,11 @@ module.exports.updateUser = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    });
+    })
+    .catch(next);;
 };
 
-module.exports.updateAvatar = (req, res) => {
+module.exports.updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, req.body, {
     new: true,
     runValidators: true,
@@ -103,10 +108,11 @@ module.exports.updateAvatar = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    });
+    })
+    .catch(next);;
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email })
     .select("+password")
@@ -129,5 +135,6 @@ module.exports.login = (req, res) => {
     })
     .catch((err) => {
       return new AuthneticationError("Error de autenticación");
-    });
+    })
+    .catch(next);;
 };
