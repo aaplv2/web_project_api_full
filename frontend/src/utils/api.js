@@ -93,8 +93,7 @@ class Api {
   }
 }
 
-const api = new Api(`https://around.nomoreparties.co/v1/web_es_10`, {
-  authorization: "bf26d6eb-e32a-4dfe-be0d-af6eb19b0a81",
+const api = new Api(`https://api.aroundfull.chickenkiller.com`, {
   "Content-Type": "application/json",
 });
 

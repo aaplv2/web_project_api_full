@@ -14,7 +14,6 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    // user env?
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     return new AuthneticationError("Se requiere autorización");
