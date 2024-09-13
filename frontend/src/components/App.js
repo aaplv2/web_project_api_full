@@ -36,29 +36,24 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.getUserInfo().then((data) => {
-      setCurrentUser(data);
-    });
-    api.getInitialCards().then((data) => {
-      console.log(data)
-      setCurrentCards(data);
-    });
-  }, []);
-
-  useEffect(() => {
     setToken(localStorage.getItem("token"));
     if (token) {
+      api.getUserInfo().then((data) => {
+        setCurrentUser(data);
+      });
+      api.getInitialCards().then((data) => {
+        setCurrentCards(data);
+      });
       getUser(token).then((data) => {
         setIsLoggedIn(true);
         setCurrentUser(data);
-        setCurrentCards(data);
-        
         navigate("/");
       });
     }
-  }, []);
+  }, [token]);
 
   const handleRegister = () => {
+    console.log("register");
     setIsSuccess(true);
     setIsInfoTooltipOpen(true);
     navigate("/signin");
@@ -66,12 +61,11 @@ function App() {
 
   const handleLogin = (token) => {
     getUser(token).then((data) => {
-      console.log(token)
+      console.log(token);
       setUserEmail(data.name);
       setIsLoggedIn(true);
       setIsSuccess(true);
       setCurrentUser(data);
-      setCurrentCards(data);
       setIsInfoTooltipOpen(true);
       navigate("/");
     });

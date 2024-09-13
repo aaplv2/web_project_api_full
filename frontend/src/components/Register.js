@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import * as auth from "../utils/auth.js";
 import "../blocks/register.css";
 import InfoTooltip from "./InfoTooltip.js";
@@ -19,14 +20,14 @@ export default function Register({
   const handleSubmit = (e) => {
     e.preventDefault();
     auth
-      .register(email, password)
-      .then((data) => {
-        if (data._id) {
+    .register(email, password)
+    .then(({data}) => {
+      if (data._id) {
           setEmail("");
           setPassword("");
           handleRegister();
-          setIsSuccess(true);
-          setIsInfoTooltipOpen(true);
+        } else {
+          throw new Error("Error")
         }
       })
       .catch((err) => {
@@ -66,7 +67,7 @@ export default function Register({
             isSuccess={isSuccess}
           />
         )}
-        
+
         <button className="register__button" type="submit">
           Regístrate
         </button>
