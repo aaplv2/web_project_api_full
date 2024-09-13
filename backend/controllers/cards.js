@@ -2,6 +2,7 @@ const { NotFoundError, BadRequestError } = require("../middlewares/errors");
 const Card = require("../models/card");
 
 module.exports.getCards = (req, res, next) => {
+  console.log("getcards");
   Card.find({})
     .then((cards) => res.send({ data: cards }))
     .catch(next);

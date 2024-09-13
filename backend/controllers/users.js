@@ -40,10 +40,11 @@ module.exports.getUser = (req, res, next) => {
         return new BadRequestError("Id de usuario no válida");
       }
     })
-    .catch(next);;
+    .catch(next);
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
+  console.log("getcurrentuser");
   User.findById(req.user._id)
     .then((users) => {
       if (users) {
@@ -57,10 +58,11 @@ module.exports.getCurrentUser = (req, res, next) => {
         return new BadRequestError("Id de usuario no válida");
       }
     })
-    .catch(next);;
+    .catch(next);
 };
 
 module.exports.createUser = (req, res, next) => {
+  console.log("createuser");
   const { name, about, avatar, email, password } = req.body;
   bcrypt
     .hash(password, 10)
@@ -73,7 +75,7 @@ module.exports.createUser = (req, res, next) => {
         "Se pasaron datos inválidos a los métodos para crear un usuario."
       );
     })
-    .catch(next);;
+    .catch(next);
 };
 
 module.exports.updateUser = (req, res, next) => {
@@ -91,7 +93,7 @@ module.exports.updateUser = (req, res, next) => {
         return new BadRequestError("Id de usuario no válida");
       }
     })
-    .catch(next);;
+    .catch(next);
 };
 
 module.exports.updateAvatar = (req, res, next) => {
@@ -109,7 +111,7 @@ module.exports.updateAvatar = (req, res, next) => {
         return new BadRequestError("Id de usuario no válida");
       }
     })
-    .catch(next);;
+    .catch(next);
 };
 
 module.exports.login = (req, res, next) => {
@@ -136,5 +138,5 @@ module.exports.login = (req, res, next) => {
     .catch((err) => {
       return new AuthneticationError("Error de autenticación");
     })
-    .catch(next);;
+    .catch(next);
 };

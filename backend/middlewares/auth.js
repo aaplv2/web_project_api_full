@@ -4,6 +4,7 @@ require("dotenv").config();
 const { JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
+  console.log("string");
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith("Bearer")) {
