@@ -53,7 +53,8 @@ app.use((err, req, res, next) => {
 });
 
 app.get("*", (req, res) => {
-  new NotFoundError("Recurso solicitado no encontrado");
+  const error = new NotFoundError("Recurso solicitado no encontrado");
+  res.status(error.statusCode).send(error.message);
 });
 
 app.listen(PORT, () => {
