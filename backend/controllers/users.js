@@ -1,11 +1,16 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+
+const User = require("../models/user");
+
 const {
   NotFoundError,
   BadRequestError,
   AuthneticationError,
 } = require("../middlewares/errors");
+
+require("dotenv").config();
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -121,9 +126,11 @@ module.exports.login = (req, res) => {
       if (!matched) {
         return Promise.reject(new Error("Email o contraseña incorrecta"));
       }
-      const token = jwt.sign({ _id: user._id }, "Clave-secreta", {
-        expiresIn: "7d",
-      });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+        { expiresIn: "7d" }
+      );
       res.send({ token });
     })
     .catch((err) => {
