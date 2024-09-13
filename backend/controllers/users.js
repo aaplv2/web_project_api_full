@@ -25,8 +25,7 @@ module.exports.getUsers = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    })
-    .catch(next());
+    });
 };
 
 module.exports.getUser = (req, res) => {
@@ -39,8 +38,7 @@ module.exports.getUser = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    })
-    .catch(next());
+    });
 };
 
 module.exports.getCurrentUser = (req, res) => {
@@ -56,8 +54,7 @@ module.exports.getCurrentUser = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    })
-    .catch(next());
+    });
 };
 
 module.exports.createUser = (req, res) => {
@@ -72,8 +69,7 @@ module.exports.createUser = (req, res) => {
       return new BadRequestError(
         "Se pasaron datos inválidos a los métodos para crear un usuario."
       );
-    })
-    .catch(next());
+    });
 };
 
 module.exports.updateUser = (req, res) => {
@@ -90,8 +86,7 @@ module.exports.updateUser = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    })
-    .catch(next());
+    });
 };
 
 module.exports.updateAvatar = (req, res) => {
@@ -108,8 +103,7 @@ module.exports.updateAvatar = (req, res) => {
       if (err.name === "CastError") {
         return new BadRequestError("Id de usuario no válida");
       }
-    })
-    .catch(next());
+    });
 };
 
 module.exports.login = (req, res) => {

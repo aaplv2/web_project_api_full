@@ -2,9 +2,7 @@ const { NotFoundError, BadRequestError } = require("../middlewares/errors");
 const Card = require("../models/card");
 
 module.exports.getCards = (req, res) => {
-  Card.find({})
-    .then((cards) => res.send({ data: cards }))
-    .catch(next());
+  Card.find({}).then((cards) => res.send({ data: cards }));
 };
 
 module.exports.createCard = (req, res) => {
@@ -25,8 +23,7 @@ module.exports.deleteCard = (req, res) => {
     .orFail(() => {
       throw new NotFoundError("No se ha encontrado ninguna tarjeta con esa id");
     })
-    .then((card) => res.send(card))
-    .catch(next());
+    .then((card) => res.send(card));
 };
 
 module.exports.likeCard = (req, res) => {
@@ -38,8 +35,7 @@ module.exports.likeCard = (req, res) => {
     .orFail(() => {
       throw new NotFoundError("No se ha encontrado ninguna tarjeta con esa id");
     })
-    .then(() => res.send({ message: "Like existoso" }))
-    .catch(next());
+    .then(() => res.send({ message: "Like existoso" }));
 };
 
 module.exports.dislikeCard = (req, res) => {
@@ -51,6 +47,5 @@ module.exports.dislikeCard = (req, res) => {
     .orFail(() => {
       throw new NotFoundError("No se ha encontrado ninguna tarjeta con esa id");
     })
-    .then(() => res.send({ message: "dislike existoso" }))
-    .catch(next());
+    .then(() => res.send({ message: "dislike existoso" }));
 };
