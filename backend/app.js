@@ -21,17 +21,18 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: [
-      "https://api.aroundfull.chickenkiller.com",
-      "https://aroundfull.chickenkiller.com",
-      "https://www.aroundfull.chickenkiller.com",
-      "api.aroundfull.chickenkiller.com",
-      "aroundfull.chickenkiller.com",
-      "www.aroundfull.chickenkiller.com",
-    ],
+    origin: true,
+    // [
+    //   "https://api.aroundfull.chickenkiller.com",
+    //   "https://aroundfull.chickenkiller.com",
+    //   "https://www.aroundfull.chickenkiller.com",
+    //   "api.aroundfull.chickenkiller.com",
+    //   "aroundfull.chickenkiller.com",
+    //   "www.aroundfull.chickenkiller.com",
+    // ],
   })
 );
-app.options("*", cors());
+app.options("*", cors({ origin: true }));
 
 mongoose.connect("mongodb://localhost:27017/aroundb");
 
