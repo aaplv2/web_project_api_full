@@ -64,7 +64,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 module.exports.createUser = (req, res, next) => {
   console.log("createuser");
   const { name, about, avatar, email, password } = req.body;
-  console.log(password)
+  console.log(password);
   bcrypt
     .hash(password, 10)
     .then((hash) =>
@@ -72,12 +72,13 @@ module.exports.createUser = (req, res, next) => {
     )
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      console.log(err)
-      return new BadRequestError(
-        "Se pasaron datos inválidos a los métodos para crear un usuario."
+      console.log(err);
+      next(
+        new BadRequestError(
+          "Se pasaron datos inválidos a los métodos para crear un usuario."
+        )
       );
-    })
-    .catch(next);
+    });
 };
 
 module.exports.updateUser = (req, res, next) => {
@@ -118,12 +119,14 @@ module.exports.updateAvatar = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
+  let userDB = null;
   User.findOne({ email })
     .select("+password")
     .then((user) => {
       if (!user) {
         return Promise.reject(new Error("Email o contraseña incorrecta"));
       }
+      userDB = user;
       return bcrypt.compare(password, user.password);
     })
     .then((matched) => {
@@ -131,14 +134,15 @@ module.exports.login = (req, res, next) => {
         return Promise.reject(new Error("Email o contraseña incorrecta"));
       }
       const token = jwt.sign(
-        { _id: user._id },
+        { _id: userDB._id },
         NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
         { expiresIn: "7d" }
       );
       res.send({ token });
     })
     .catch((err) => {
-      return new AuthneticationError("Error de autenticación");
-    })
-    .catch(next);
+      console.log(err);
+      next(new AuthneticationError("Error de autenticación"));
+      // return
+    });
 };
