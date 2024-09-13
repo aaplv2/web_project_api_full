@@ -23,10 +23,11 @@ module.exports.getUsers = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return new BadRequestError("Id de usuario no válida");
+        next(new BadRequestError("Id de usuario no válida"));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports.getUser = (req, res, next) => {
@@ -37,14 +38,14 @@ module.exports.getUser = (req, res, next) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === "CastError") {
-        return new BadRequestError("Id de usuario no válida");
+        next(new BadRequestError("Id de usuario no válida"));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
-  console.log("getcurrentuser");
   User.findById(req.user._id)
     .then((users) => {
       if (users) {
@@ -55,10 +56,11 @@ module.exports.getCurrentUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return new BadRequestError("Id de usuario no válida");
+        next(new BadRequestError("Id de usuario no válida"));
+      } else {
+        next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports.createUser = (req, res, next) => {
@@ -72,7 +74,6 @@ module.exports.createUser = (req, res, next) => {
     )
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      console.log(err);
       next(
         new BadRequestError(
           "Se pasaron datos inválidos a los métodos para crear un usuario."
@@ -141,8 +142,6 @@ module.exports.login = (req, res, next) => {
       res.send({ token });
     })
     .catch((err) => {
-      console.log(err);
       next(new AuthneticationError("Error de autenticación"));
-      // return
     });
 };
