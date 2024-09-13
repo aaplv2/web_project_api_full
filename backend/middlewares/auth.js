@@ -8,7 +8,8 @@ module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith("Bearer")) {
-    return new AuthneticationError("Se requiere autorización");
+    const errorAuth = new AuthneticationError("Se requiere autorización");
+    next(errorAuth)
   }
 
   const token = authorization.replace("Bearer", "");
@@ -17,7 +18,8 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
-    return new AuthneticationError("Se requiere autorización");
+    const errorAuth = new AuthneticationError("Se requiere autorización");
+    next(errorAuth)
   }
 
   req.user = payload;
