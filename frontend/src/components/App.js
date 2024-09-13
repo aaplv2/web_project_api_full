@@ -38,13 +38,13 @@ function App() {
   useEffect(() => {
     setToken(localStorage.getItem("token"));
     if (token) {
-      api.getUserInfo().then((data) => {
+      api.getUserInfo().then(({data}) => {
         setCurrentUser(data);
       });
-      api.getInitialCards().then((data) => {
+      api.getInitialCards().then(({data}) => {
         setCurrentCards(data);
       });
-      getUser(token).then((data) => {
+      getUser(token).then(({data}) => {
         setIsLoggedIn(true);
         setCurrentUser(data);
         navigate("/");
@@ -60,8 +60,7 @@ function App() {
   };
 
   const handleLogin = (token) => {
-    getUser(token).then((data) => {
-      console.log(token);
+    getUser(token).then(({data}) => {
       setUserEmail(data.name);
       setIsLoggedIn(true);
       setIsSuccess(true);
@@ -134,6 +133,7 @@ function App() {
   };
 
   const handleUpdateUser = (user) => {
+    // revisar llaves newUser
     api.updateUserInfo(user.name, user.about).then((newUser) => {
       setCurrentUser(newUser);
       closeAllPopouts();
@@ -141,6 +141,7 @@ function App() {
   };
 
   const handleAvatarUpdate = ({ avatar }) => {
+    // revisar llaves
     api.updateAvatar(avatar).then(() => {
       setCurrentUser({ ...currentUser, avatar: avatar });
       closeAllPopouts();

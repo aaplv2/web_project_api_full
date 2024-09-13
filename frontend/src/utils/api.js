@@ -95,7 +95,7 @@ class Api {
 
 const api = new Api(`https://api.aroundfull.chickenkiller.com`, {
   "Content-Type": "application/json",
-  Authorization: localStorage.getItem("token") || "",
+  Authorization: "Bearer "+localStorage.getItem("token") || "",
 });
 
 export default api;
