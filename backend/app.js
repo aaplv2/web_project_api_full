@@ -19,7 +19,18 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://api.aroundfull.chickenkiller.com",
+      "https://aroundfull.chickenkiller.com",
+      "https://www.aroundfull.chickenkiller.com",
+      "api.aroundfull.chickenkiller.com",
+      "aroundfull.chickenkiller.com",
+      "www.aroundfull.chickenkiller.com",
+    ],
+  })
+);
 app.options("*", cors());
 
 mongoose.connect("mongodb://localhost:27017/aroundb");
