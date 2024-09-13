@@ -14,8 +14,8 @@ const {
 } = require("../models/validation");
 
 router.get("/", getUsers);
-router.get("/:id", getUser);
 router.get("/me", getCurrentUser);
+router.get("/:id", getUser);
 router.patch("/me", celebrate({ body: profileUpdateValidator }), updateUser);
 router.patch(
   "/me/avatar",

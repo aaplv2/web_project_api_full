@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
     next(errorAuth);
   }
 
-  const token = authorization.replace("Bearer", "");
+  const token = authorization.replace("Bearer ", "");
   let payload;
 
   try {
