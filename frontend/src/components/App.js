@@ -40,6 +40,7 @@ function App() {
       setCurrentUser(data);
     });
     api.getInitialCards().then((data) => {
+      console.log(data)
       setCurrentCards(data);
     });
   }, []);
@@ -51,11 +52,38 @@ function App() {
         setIsLoggedIn(true);
         setCurrentUser(data);
         setCurrentCards(data);
-        setUserEmail(data.email);
+        
         navigate("/");
       });
     }
   }, []);
+
+  const handleRegister = () => {
+    setIsSuccess(true);
+    setIsInfoTooltipOpen(true);
+    navigate("/signin");
+  };
+
+  const handleLogin = (token) => {
+    getUser(token).then((data) => {
+      console.log(token)
+      setUserEmail(data.name);
+      setIsLoggedIn(true);
+      setIsSuccess(true);
+      setCurrentUser(data);
+      setCurrentCards(data);
+      setIsInfoTooltipOpen(true);
+      navigate("/");
+    });
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserEmail("");
+    setCurrentUser({});
+    localStorage.clear();
+    navigate("/signin");
+  };
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopoutOpen(true);
@@ -130,30 +158,6 @@ function App() {
       setCurrentCards([newCard, ...currentCards]);
       closeAllPopouts();
     });
-  };
-
-  const handleRegister = () => {
-    setIsSuccess(true);
-    setIsInfoTooltipOpen(true);
-    navigate("/signin");
-  };
-
-  const handleLogin = (token) => {
-    getUser(token).then((data) => {
-      setUserEmail(data.name);
-      setIsLoggedIn(true);
-      setIsSuccess(true);
-      setIsInfoTooltipOpen(true);
-      navigate("/");
-    });
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUserEmail("");
-    setCurrentUser({});
-    localStorage.clear();
-    navigate("/signin");
   };
 
   return (

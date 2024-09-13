@@ -66,7 +66,7 @@ export default function Register({
             isSuccess={isSuccess}
           />
         )}
-
+        
         <button className="register__button" type="submit">
           Regístrate
         </button>
