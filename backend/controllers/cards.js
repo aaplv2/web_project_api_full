@@ -54,7 +54,7 @@ module.exports.likeCard = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError("No se ha encontrado ninguna tarjeta con esa id");
     })
-    .then(() => res.send({ message: "Like existoso" }))
+    .then(() => res.send((card) => res.send(card)))
     .catch((err) => {
       if (err.name === "CastError") {
         next(new BadRequestError("Datos de tarjeta no validos"));
@@ -73,7 +73,7 @@ module.exports.dislikeCard = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError("No se ha encontrado ninguna tarjeta con esa id");
     })
-    .then(() => res.send({ message: "dislike existoso" }))
+    .then(() => res.send((card) => res.send(card)))
     .catch((err) => {
       if (err.name === "CastError") {
         next(new BadRequestError("Datos de tarjeta no validos"));

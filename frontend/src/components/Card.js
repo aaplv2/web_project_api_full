@@ -20,9 +20,9 @@ const Card = (props) => {
   const currentUser = useContext(CurrentUserContext);
 
   const isOwn = props.card.owner === currentUser._id;
-  const isLiked =
-    Array.isArray(props.card.likes) &&
-    props.card.likes.some((cardId) => cardId._id === currentUser._id);
+  const isLiked = props.card.likes?.some(
+    (cardId) => cardId._id === currentUser._id
+  );
 
   return (
     <div className="card">
@@ -50,11 +50,9 @@ const Card = (props) => {
           >
             <img src={likeButtonPath} alt="Botón like" />
           </button>
-          {props.card.likes?.length !== 0 && (
-            <label className="card__button-counter">
-              {props.card.likes?.length}
-            </label>
-          )}
+          <label className="card__button-counter">
+            {props.card.likes?.length}
+          </label>
         </div>
       </div>
     </div>

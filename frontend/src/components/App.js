@@ -110,11 +110,15 @@ function App() {
   };
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((cardId) => cardId._id === currentUser._id);
+    let isLiked = card.likes?.some((cardId) => cardId._id === currentUser._id);
+
+    // isLiked ? api.addLike(card._id, !isLiked) : api.removeLike(card._id, isLiked)
+
     api.handleLike(card._id, !isLiked).then((newCard) => {
-      setCurrentCards((cardState) =>
-        cardState.map((c) => (c._id === card._id ? newCard : c))
-      );
+      console.log(newCard)
+      // setCurrentCards((cardState) =>
+      //   cardState.map((c) => (c._id === card._id ? newCard : c))
+      // );
     });
   };
 
@@ -139,7 +143,7 @@ function App() {
     });
   };
 
-const handleAvatarUpdate = ({ avatar }) => {
+  const handleAvatarUpdate = ({ avatar }) => {
     api.updateAvatar(avatar).then(() => {
       setCurrentUser({ ...currentUser, avatar: avatar });
       closeAllPopouts();

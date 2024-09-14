@@ -45,7 +45,7 @@ function Main(props) {
         ></button>
       </div>
       <div className="content__cards cards">
-        {Array.isArray(currentCard) && currentCard?.map((card) => {
+        {currentCard?.map((card) => {
           return (
             <Card
               card={card}
