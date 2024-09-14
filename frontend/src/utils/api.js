@@ -66,7 +66,7 @@ class Api {
 
   addLike(id) {
     return this.getFetch(
-      `cards/likes/${id}`,
+      `cards/${id}/likes`,
       "PUT",
       JSON.stringify({
         id,
@@ -75,7 +75,7 @@ class Api {
   }
   removeLike(id) {
     return this.getFetch(
-      `cards/likes/${id}`,
+      `cards/${id}/likes`,
       "DELETE",
       JSON.stringify({
         id,
