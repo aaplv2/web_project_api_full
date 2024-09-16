@@ -2,7 +2,6 @@ const { NotFoundError, BadRequestError } = require("../middlewares/errors");
 const Card = require("../models/card");
 
 module.exports.getCards = (req, res, next) => {
-  console.log("getcards");
   Card.find({})
     .then((cards) => res.send({ data: cards }))
     .catch((err) => {
@@ -15,12 +14,9 @@ module.exports.getCards = (req, res, next) => {
 };
 
 module.exports.createCard = (req, res, next) => {
-  const { name, link, owner } = req.body;
-  console.log(req.user)
+  const { name, link } = req.body;
   Card.create({ title: name, link, owner: req.user })
-    .then((card) => {
-      res.send({ data: card });
-    })
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === "CastError") {
         next(new BadRequestError("Datos de tarjeta no validos"));

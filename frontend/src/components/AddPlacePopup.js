@@ -27,7 +27,7 @@ export function AddPlacePopup(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onAddPlace({ name, link });
+    props.onAddPlace({name: name, link: link} );
     setName("");
     setLink("");
   };

@@ -1,7 +1,7 @@
 class Api {
   constructor(baseUrl, headers) {
     this._baseUrl = baseUrl;
-    this._headers = headers;
+    // this._headers = headers;
   }
 
   handleRes(res) {
@@ -14,17 +14,22 @@ class Api {
   getFetch(url, method, body) {
     return fetch(`${this._baseUrl}/${url}`, {
       method,
-      headers: this._headers,
+      headers:  {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token") || "",
+      },
       body,
     }).then(this.handleRes);
+  }
+
+  getUserInfo() {
+    return this.getFetch("users/me", "GET");
   }
 
   getInitialCards() {
     return this.getFetch("cards", "GET");
   }
-  getUserInfo() {
-    return this.getFetch("users/me", "GET");
-  }
+
   updateUserInfo(name, about) {
     return this.getFetch(
       "users/me",
@@ -57,28 +62,28 @@ class Api {
     );
   }
 
-  handleLike(id, isLiked) {
+  handleLike(id, userId, isLiked) {
     if (isLiked) {
-      return this.addLike(id);
+      return this.addLike(id, userId);
     }
-    return this.removeLike(id);
+    return this.removeLike(id, userId);
   }
 
-  addLike(id) {
+  addLike(id, userId) {
     return this.getFetch(
       `cards/${id}/likes`,
       "PUT",
       JSON.stringify({
-        id,
+        userId,
       })
     );
   }
-  removeLike(id) {
+  removeLike(id, userId) {
     return this.getFetch(
       `cards/${id}/likes`,
       "DELETE",
       JSON.stringify({
-        id,
+        userId,
       })
     );
   }
@@ -93,9 +98,8 @@ class Api {
   }
 }
 
-const api = new Api(`https://api.aroundfull.chickenkiller.com`, {
-  "Content-Type": "application/json",
-  Authorization: "Bearer " + localStorage.getItem("token") || "",
-});
+const api = new Api(`https://api.aroundfull.chickenkiller.com`);
 
-export default api;
+export default api
+
+

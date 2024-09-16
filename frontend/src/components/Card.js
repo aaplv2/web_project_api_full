@@ -21,7 +21,7 @@ const Card = (props) => {
 
   const isOwn = props.card.owner === currentUser._id;
   const isLiked = props.card.likes?.some(
-    (cardId) => cardId._id === currentUser._id
+    (cardId) => cardId === currentUser._id
   );
 
   return (
@@ -37,12 +37,12 @@ const Card = (props) => {
         <img
           className="card__image"
           src={props.card.link}
-          alt={props.card.name}
+          alt={props.card.title}
           onClick={handleCardClick}
         />
       </div>
       <div className="card__bottom">
-        <h2 className="card__title">{props.card.name}</h2>
+        <h2 className="card__title">{props.card.title}</h2>
         <div className="card__button">
           <button
             className={`card__button-like ${isLiked ? "active" : ""}`}

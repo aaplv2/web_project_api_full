@@ -1,6 +1,9 @@
 // export const BASE_URL = "https://register.nomoreparties.co";
 // export const BASE_URL = "https://express-api-tripleten.vercel.app/";
 // export const BASE_URL = "https://tripleten.desarrollointerno.com";
+
+import Api from "./api";
+
 // repo: https://github.com/HoracioGutierrez/express-api-tripleten.git
 export const BASE_URL = "https://api.aroundfull.chickenkiller.com";
 

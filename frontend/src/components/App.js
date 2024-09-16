@@ -15,8 +15,8 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import { CurrentCardContext } from "../contexts/CurrentCardContext.js";
 import { PopupContext } from "../contexts/PopupProvider.js";
 
-import api from "../utils/api.js";
 import { getUser } from "../utils/auth.js";
+import api from "../utils/api.js";
 
 function App() {
   const [isAddPlacePopoutOpen, setIsAddPlacePopoutOpen] = useState(false);
@@ -38,22 +38,26 @@ function App() {
   useEffect(() => {
     setToken(localStorage.getItem("token"));
     if (token) {
+      getUser(token).then(({ data }) => {  
+        setUserEmail(data.email);
+        setIsLoggedIn(true);
+        navigate("/");
+      });
       api.getUserInfo().then(({ data }) => {
         setCurrentUser(data);
       });
       api.getInitialCards().then(({ data }) => {
-        setCurrentCards(data);
-      });
-      getUser(token).then(({ data }) => {
-        setIsLoggedIn(true);
-        setCurrentUser(data);
-        navigate("/");
+        const cardsByDate = data.sort((a,b) =>{
+          const dateA = new Date(a.createdAt)
+          const dateB = new Date(b.createdAt)
+          return dateB - dateA
+        })
+        setCurrentCards(cardsByDate);
       });
     }
   }, [token]);
 
   const handleRegister = () => {
-    console.log("register");
     setIsSuccess(true);
     setIsInfoTooltipOpen(true);
     navigate("/signin");
@@ -61,7 +65,8 @@ function App() {
 
   const handleLogin = (token) => {
     getUser(token).then(({ data }) => {
-      setUserEmail(data.name);
+      setToken(token)
+      setUserEmail(data.email);
       setIsLoggedIn(true);
       setIsSuccess(true);
       setCurrentUser(data);
@@ -110,15 +115,11 @@ function App() {
   };
 
   const handleCardLike = (card) => {
-    let isLiked = card.likes?.some((cardId) => cardId._id === currentUser._id);
-
-    // isLiked ? api.addLike(card._id, !isLiked) : api.removeLike(card._id, isLiked)
-
-    api.handleLike(card._id, !isLiked).then((newCard) => {
-      console.log(newCard)
-      // setCurrentCards((cardState) =>
-      //   cardState.map((c) => (c._id === card._id ? newCard : c))
-      // );
+    const isLiked = card.likes?.some((cardId) => cardId === currentUser._id);
+    api.handleLike(card._id, currentUser._id, !isLiked).then((newCard) => {
+      setCurrentCards((cardState) =>
+        cardState.map((c) => (c._id === card._id ? newCard : c))
+      );
     });
   };
 
@@ -138,7 +139,7 @@ function App() {
 
   const handleUpdateUser = (user) => {
     api.updateUserInfo(user.name, user.about).then((newUser) => {
-      setCurrentUser(newUser);
+      setCurrentUser(newUser.data);
       closeAllPopouts();
     });
   };
@@ -152,7 +153,7 @@ function App() {
 
   const handleAddPlace = ({ name, link }) => {
     api.addCard(name, link).then((newCard) => {
-      setCurrentCards([newCard, ...currentCards]);
+      setCurrentCards([newCard.data, ...currentCards]);
       closeAllPopouts();
     });
   };
