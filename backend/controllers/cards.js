@@ -16,7 +16,7 @@ module.exports.getCards = (req, res, next) => {
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ title: name, link, owner: req.user })
-    .then((card) => res.send(card))
+    .then((card) =>{ res.send(card)})
     .catch((err) => {
       if (err.name === "CastError") {
         next(new BadRequestError("Datos de tarjeta no validos"));
