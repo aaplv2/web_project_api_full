@@ -153,7 +153,7 @@ function App() {
 
   const handleAddPlace = ({ name, link }) => {
     api.addCard(name, link).then((newCard) => {
-      setCurrentCards([newCard.data, ...currentCards]);
+      setCurrentCards([newCard, ...currentCards]);
       closeAllPopouts();
     });
   };
